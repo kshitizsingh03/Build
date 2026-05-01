@@ -9,22 +9,28 @@
 </head>
 <body class="dashboard-body">
     <nav class="navbar">
-        <div class="nav-brand">Team Task Manager</div>
+        <div class="nav-brand">TaskFlowHQ</div>
         <div class="nav-user">
-            <span id="userNameDisplay">Welcome</span>
-            <button id="logoutBtn" class="btn secondary-btn btn-sm">Logout</button>
+            <div class="user-greeting">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <span id="userNameDisplay">Welcome</span>
+            </div>
+            <button id="logoutBtn" class="btn secondary-btn btn-sm">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Sign Out
+            </button>
         </div>
     </nav>
 
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
-            <div class="stats-card">
-                <h3>My Tasks</h3>
+            <div class="glass-panel">
+                <h3 class="section-title">Workspace Overview</h3>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <span class="stat-value" id="totalTasks">0</span>
-                        <span class="stat-label">Total</span>
+                        <span class="stat-value text-primary" id="totalTasks">0</span>
+                        <span class="stat-label">Total Tasks</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value text-success" id="completedTasks">0</span>
@@ -32,7 +38,7 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-value text-warning" id="pendingTasks">0</span>
-                        <span class="stat-label">Pending/WIP</span>
+                        <span class="stat-label">In Progress</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value text-danger" id="overdueTasks">0</span>
@@ -41,16 +47,20 @@
                 </div>
             </div>
 
-            <div id="adminControls" class="admin-controls hidden">
-                <h3>Admin Actions</h3>
-                <button class="btn primary-btn btn-block" onclick="openModal('projectModal')">Create Project</button>
-                <button class="btn secondary-btn btn-block" onclick="openModal('taskModal')" style="margin-top: 10px;">Create Task</button>
+            <div id="adminControls" class="glass-panel hidden">
+                <h3 class="section-title">Admin Quick Actions</h3>
+                <button class="btn primary-btn btn-block" onclick="openModal('projectModal')">
+                    + New Project
+                </button>
+                <button class="btn secondary-btn btn-block" onclick="openModal('taskModal')" style="margin-top: 15px;">
+                    + Assign Task
+                </button>
             </div>
 
-            <div class="filter-section">
-                <h3>Filter Status</h3>
+            <div class="glass-panel filter-section">
+                <h3 class="section-title">Filter by Status</h3>
                 <select id="statusFilter" class="form-control">
-                    <option value="All">All</option>
+                    <option value="All">View All Tasks</option>
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
@@ -60,12 +70,12 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="section-header">
-                <h2>Tasks</h2>
+            <div class="main-header">
+                <h2>Your Task Board</h2>
             </div>
             <div id="tasksList" class="tasks-grid">
                 <!-- Tasks will be rendered here -->
-                <div class="loader">Loading tasks...</div>
+                <div class="loader">Fetching your tasks...</div>
             </div>
         </main>
     </div>
@@ -74,55 +84,55 @@
     
     <!-- Create Project Modal -->
     <div id="projectModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content glass-panel">
             <span class="close" onclick="closeModal('projectModal')">&times;</span>
-            <h2>Create New Project</h2>
+            <h2>Launch New Project</h2>
             <form id="createProjectForm">
                 <div class="form-group">
                     <label>Project Name</label>
-                    <input type="text" id="projName" required>
+                    <input type="text" id="projName" required placeholder="e.g. Q3 Marketing Campaign">
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea id="projDesc" rows="3"></textarea>
+                    <textarea id="projDesc" rows="3" placeholder="What is the main objective?"></textarea>
                 </div>
-                <button type="submit" class="btn primary-btn">Create Project</button>
+                <button type="submit" class="btn primary-btn btn-block">Create Project</button>
             </form>
         </div>
     </div>
 
     <!-- Create Task Modal -->
     <div id="taskModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content glass-panel">
             <span class="close" onclick="closeModal('taskModal')">&times;</span>
-            <h2>Create New Task</h2>
+            <h2>Assign New Task</h2>
             <form id="createTaskForm">
                 <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" id="taskTitle" required>
+                    <label>Task Title</label>
+                    <input type="text" id="taskTitle" required placeholder="e.g. Design landing page">
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea id="taskDesc" rows="3"></textarea>
+                    <textarea id="taskDesc" rows="3" placeholder="Detailed requirements..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Project</label>
+                    <label>Select Project</label>
                     <select id="taskProject" required>
                         <!-- Loaded dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Assign To</label>
+                    <label>Assign To Team Member</label>
                     <select id="taskAssignee">
-                        <option value="">Unassigned</option>
+                        <option value="">Leave Unassigned</option>
                         <!-- Loaded dynamically -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Due Date</label>
+                    <label>Deadline</label>
                     <input type="date" id="taskDueDate" required>
                 </div>
-                <button type="submit" class="btn primary-btn">Create Task</button>
+                <button type="submit" class="btn primary-btn btn-block">Dispatch Task</button>
             </form>
         </div>
     </div>

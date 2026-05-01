@@ -13,6 +13,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     currentUser = JSON.parse(userStr);
     document.getElementById('userNameDisplay').textContent = `Hello, ${currentUser.name} (${currentUser.role})`;
+    
+    // Set a human touch: initials in the avatar
+    const initial = currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U';
+    document.getElementById('userAvatar').textContent = initial;
 
     // Admin Specifics
     if (currentUser.role === 'Admin') {
@@ -149,24 +153,25 @@ function renderTasks(filterStatus) {
         const isOverdue = dueDate < today && task.status !== 'Completed';
 
         const card = document.createElement('div');
-        card.className = `task-card status-${task.status.replace(' ', '').toLowerCase()} ${isOverdue ? 'overdue' : ''}`;
+        // Let's add the glass-panel effect to the cards
+        card.className = `task-card glass-panel status-${task.status.replace(' ', '').toLowerCase()} ${isOverdue ? 'overdue' : ''}`;
 
         let statusOptions = '';
         if (task.status !== 'Completed') {
             statusOptions = `
-                <select onchange="updateTaskStatus('${task._id}', this.value)" class="form-control" style="width: auto; padding: 4px; font-size: 12px;">
+                <select onchange="updateTaskStatus('${task._id}', this.value)" class="form-control" style="width: auto; padding: 6px 10px; font-size: 13px;">
                     <option value="Pending" ${task.status === 'Pending' ? 'selected' : ''}>Pending</option>
                     <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
                     <option value="Completed" ${task.status === 'Completed' ? 'selected' : ''}>Completed</option>
                 </select>
             `;
         } else {
-            statusOptions = `<span class="task-badge text-success">Completed</span>`;
+            statusOptions = `<span class="task-badge text-success">Done! 🚀</span>`;
         }
 
         let deleteBtn = '';
         if(currentUser.role === 'Admin') {
-            deleteBtn = `<button class="btn btn-sm text-danger" style="background:none;border:none;padding:0;text-decoration:underline;" onclick="deleteTask('${task._id}')">Delete</button>`;
+            deleteBtn = `<button class="btn btn-sm text-danger" style="background:rgba(239, 68, 68, 0.1);border:1px solid rgba(239, 68, 68, 0.2);" onclick="deleteTask('${task._id}')">Remove</button>`;
         }
 
         card.innerHTML = `
@@ -174,11 +179,11 @@ function renderTasks(filterStatus) {
                 <div class="task-title">${task.title}</div>
                 <div class="task-badge">${task.status}</div>
             </div>
-            <div class="task-desc">${task.description || 'No description provided.'}</div>
-            <div style="font-size: 12px; margin-bottom: 10px;">
-                <strong>Project:</strong> ${task.project ? task.project.name : 'Unknown'}<br>
-                <strong>Assignee:</strong> ${task.assignedTo ? task.assignedTo.name : 'Unassigned'}<br>
-                <strong>Due:</strong> ${dueDate.toLocaleDateString()} ${isOverdue ? '<span class="text-danger">(Overdue)</span>' : ''}
+            <div class="task-desc">${task.description || 'No description provided. Hopefully it is self-explanatory!'}</div>
+            <div class="task-meta">
+                <div><strong>Project:</strong> ${task.project ? task.project.name : 'Unknown Project'}</div>
+                <div><strong>Assignee:</strong> ${task.assignedTo ? task.assignedTo.name : 'Unassigned'}</div>
+                <div><strong>Deadline:</strong> ${dueDate.toLocaleDateString()} ${isOverdue ? '<span class="text-danger">(Overdue! ⚠️)</span>' : ''}</div>
             </div>
             <div class="task-footer">
                 ${statusOptions}
@@ -195,13 +200,19 @@ async function handleCreateProject(e) {
     const name = document.getElementById('projName').value;
     const desc = document.getElementById('projDesc').value;
 
+    console.log("Creating new project...", name);
+
     try {
         await apiCall('/projects', 'POST', { name, description: desc });
         closeModal('projectModal');
         document.getElementById('createProjectForm').reset();
         await loadProjects();
-        alert('Project created successfully!');
-    } catch(err) { alert('Error creating project'); }
+        // Just a simple alert for now, could use a toast library later
+        alert('Awesome! Project created successfully 🚀');
+    } catch(err) { 
+        console.error("Ah snap, project creation failed:", err);
+        alert('Error creating project. Check console.'); 
+    }
 }
 
 async function handleCreateTask(e) {
@@ -217,8 +228,10 @@ async function handleCreateTask(e) {
         closeModal('taskModal');
         document.getElementById('createTaskForm').reset();
         await loadTasks();
-        alert('Task created successfully!');
-    } catch(err) { alert('Error creating task'); }
+    } catch(err) { 
+        console.error("Failed to dispatch task:", err);
+        alert('Error creating task.'); 
+    }
 }
 
 async function updateTaskStatus(taskId, newStatus) {

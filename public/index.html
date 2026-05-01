@@ -9,25 +9,29 @@
 </head>
 <body>
     <div class="auth-container">
-        <div class="auth-card">
-            <h1 class="auth-title">Team Task Manager</h1>
+        <div class="auth-card glass-panel">
+            <h1 class="auth-title">TaskFlowHQ</h1>
+            <p class="auth-subtitle">Welcome back. Let's get things done.</p>
             
             <div class="auth-tabs">
-                <button class="tab-btn active" id="loginTab">Login</button>
-                <button class="tab-btn" id="signupTab">Sign Up</button>
+                <button class="tab-btn active" id="loginTab">Sign In</button>
+                <button class="tab-btn" id="signupTab">Create Account</button>
             </div>
 
             <!-- Login Form -->
             <form id="loginForm" class="auth-form active">
                 <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="you@example.com">
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    <input type="password" id="loginPassword" required placeholder="••••••••">
                 </div>
-                <button type="submit" class="btn primary-btn btn-block">Login</button>
+                <button type="submit" class="btn primary-btn btn-block">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path></svg>
+                    Access Dashboard
+                </button>
                 <p id="loginError" class="error-msg"></p>
             </form>
 
@@ -38,21 +42,24 @@
                     <input type="text" id="signupName" required placeholder="John Doe">
                 </div>
                 <div class="form-group">
-                    <label for="signupEmail">Email</label>
+                    <label for="signupEmail">Email Address</label>
                     <input type="email" id="signupEmail" required placeholder="john@example.com">
                 </div>
                 <div class="form-group">
                     <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required placeholder="Create a password">
+                    <input type="password" id="signupPassword" required placeholder="Create a strong password">
                 </div>
                 <div class="form-group">
-                    <label for="signupRole">Role</label>
+                    <label for="signupRole">Workspace Role</label>
                     <select id="signupRole" required>
-                        <option value="Member">Member</option>
-                        <option value="Admin">Admin</option>
+                        <option value="Member">Team Member</option>
+                        <option value="Admin">Workspace Admin</option>
                     </select>
                 </div>
-                <button type="submit" class="btn primary-btn btn-block">Sign Up</button>
+                <button type="submit" class="btn primary-btn btn-block">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                    Join the Team
+                </button>
                 <p id="signupError" class="error-msg"></p>
             </form>
         </div>
