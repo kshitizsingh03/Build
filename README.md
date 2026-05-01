@@ -51,4 +51,4 @@ To run this project, you will need to add the following environment variables to
 - DELETE `/api/tasks/:id` - Delete a task (Admin only)
 
 ## Deployment Link
-Live Application: [Replace with live deployed URL once deployed on Railway]
+Live Application: https://build-production-b65c.up.railway.app
