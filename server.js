@@ -17,7 +17,6 @@ const app = express();
 app.use(helmet({
   contentSecurityPolicy: false, // disabled for simple frontend rendering
 }));
-app.use(mongoSanitize()); // Prevent NoSQL Injection
 
 // Rate Limiting (100 requests per 15 mins)
 const limiter = rateLimit({
