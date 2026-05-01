@@ -11,6 +11,15 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'Please enter all fields' });
     }
 
+    // Strict Password Validation
+    // Requires at least 8 chars, 1 uppercase, and 1 digit or special character
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[\d\W]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ 
+        message: 'Password must be at least 8 characters long, contain at least one uppercase letter, and at least one number or special character.' 
+      });
+    }
+
     // Check for existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {

@@ -47,7 +47,8 @@
                 </div>
                 <div class="form-group">
                     <label for="signupPassword">Password</label>
-                    <input type="password" id="signupPassword" required placeholder="Create a strong password">
+                    <input type="password" id="signupPassword" required placeholder="Create a strong password" minlength="8" pattern="(?=.*[A-Z])(?=.*[\d\W]).{8,}">
+                    <small style="color: var(--text-muted); font-size: 11px; display: block; margin-top: 5px;">Must be 8+ chars, with 1 uppercase and 1 number/symbol.</small>
                 </div>
                 <div class="form-group">
                     <label for="signupRole">Workspace Role</label>

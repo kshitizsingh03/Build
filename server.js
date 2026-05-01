@@ -3,6 +3,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/projects');
@@ -10,7 +13,21 @@ const taskRoutes = require('./routes/tasks');
 
 const app = express();
 
-// Middleware
+// Security Middlewares
+app.use(helmet({
+  contentSecurityPolicy: false, // disabled for simple frontend rendering
+}));
+app.use(mongoSanitize()); // Prevent NoSQL Injection
+
+// Rate Limiting (100 requests per 15 mins)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: "Too many requests from this IP, please try again later."
+});
+app.use('/api/', limiter);
+
+// Standard Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
