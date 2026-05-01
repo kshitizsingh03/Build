@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Team Task Manager</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <nav class="navbar">
+        <div class="nav-brand">Team Task Manager</div>
+        <div class="nav-user">
+            <span id="userNameDisplay">Welcome</span>
+            <button id="logoutBtn" class="btn secondary-btn btn-sm">Logout</button>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="stats-card">
+                <h3>My Tasks</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-value" id="totalTasks">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value text-success" id="completedTasks">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value text-warning" id="pendingTasks">0</span>
+                        <span class="stat-label">Pending/WIP</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value text-danger" id="overdueTasks">0</span>
+                        <span class="stat-label">Overdue</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="adminControls" class="admin-controls hidden">
+                <h3>Admin Actions</h3>
+                <button class="btn primary-btn btn-block" onclick="openModal('projectModal')">Create Project</button>
+                <button class="btn secondary-btn btn-block" onclick="openModal('taskModal')" style="margin-top: 10px;">Create Task</button>
+            </div>
+
+            <div class="filter-section">
+                <h3>Filter Status</h3>
+                <select id="statusFilter" class="form-control">
+                    <option value="All">All</option>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="section-header">
+                <h2>Tasks</h2>
+            </div>
+            <div id="tasksList" class="tasks-grid">
+                <!-- Tasks will be rendered here -->
+                <div class="loader">Loading tasks...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals (Hidden by default) -->
+    
+    <!-- Create Project Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('projectModal')">&times;</span>
+            <h2>Create New Project</h2>
+            <form id="createProjectForm">
+                <div class="form-group">
+                    <label>Project Name</label>
+                    <input type="text" id="projName" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="projDesc" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn primary-btn">Create Project</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Task Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('taskModal')">&times;</span>
+            <h2>Create New Task</h2>
+            <form id="createTaskForm">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="taskTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="taskDesc" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Project</label>
+                    <select id="taskProject" required>
+                        <!-- Loaded dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Assign To</label>
+                    <select id="taskAssignee">
+                        <option value="">Unassigned</option>
+                        <!-- Loaded dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" id="taskDueDate" required>
+                </div>
+                <button type="submit" class="btn primary-btn">Create Task</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
